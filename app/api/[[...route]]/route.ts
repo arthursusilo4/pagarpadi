@@ -1,56 +1,70 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
-import { zValidator } from '@hono/zod-validator'
-import { Context, Next } from 'hono'        // ← import these two
-import { surveySchema } from '@/lib/schema'
-import { supabaseAdmin } from '@/lib/supabase-admin'
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
+import { zValidator } from "@hono/zod-validator";
+import { Context, Next } from "hono"; // ← import these two
+import { surveySchema } from "@/lib/schema";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
-export const runtime = 'nodejs'
+export const runtime = "nodejs";
 
-const app = new Hono().basePath('/api')
+const app = new Hono().basePath("/api");
 
 // Admin auth middleware
-const adminAuth = async (c: Context, next: Next) => {    // ← add types here
-  const key = c.req.header('x-admin-key')
+const adminAuth = async (c: Context, next: Next) => {
+  // ← add types here
+  const key = c.req.header("x-admin-key");
   if (key !== process.env.ADMIN_SECRET)
-    return c.json({ error: 'Unauthorized' }, 401)
-  await next()
-}
+    return c.json({ error: "Unauthorized" }, 401);
+  await next();
+};
 
 // POST /api/survey/submit
-app.post('/survey/submit',
-  zValidator('json', surveySchema),
-  async (c) => {
-    const data = c.req.valid('json')
-    const { error } = await supabaseAdmin
-      .from('responses')
-      .insert({ answers: data })
-    if (error) return c.json({ error }, 500)
-    return c.json({ success: true }, 201)
+app.post("/survey/submit", zValidator("json", surveySchema), async (c) => {
+  const data = c.req.valid("json");
+
+  const { error } = await supabaseAdmin.from("responses").insert({
+    nama: data.nama,
+    pengalaman_bertani: data.pengalaman_bertani,
+    frekuensi_hama: data.frekuensi_hama,
+    bulan_serangan: data.bulan_serangan,
+    hama_wereng: data.hama_wereng,
+    hama_tikus: data.hama_tikus,
+    hama_putih_palsu: data.hama_putih_palsu,
+    hama_keong_mas: data.hama_keong_mas,
+    hama_penggerek_putih: data.hama_penggerek_putih,
+    hama_penggerek_kuning: data.hama_penggerek_kuning,
+    hama_lainnya: data.hama_lainnya || null, // empty → null
+  });
+
+  if (error) {
+    console.error("Supabase insert error:", error);
+    return c.json({ error: "Gagal menyimpan data" }, 500);
   }
-)
+
+  return c.json({ success: true }, 201);
+});
 
 // GET /api/admin/responses
-app.get('/admin/responses', adminAuth, async (c) => {
+app.get("/admin/responses", adminAuth, async (c) => {
   const { data, error } = await supabaseAdmin
-    .from('responses')
-    .select('*')
-    .order('submitted_at', { ascending: false })
-  return c.json({ data })
-})
+    .from("responses")
+    .select("*")
+    .order("submitted_at", { ascending: false });
+  return c.json({ data });
+});
 
 // PATCH /api/admin/responses/:id
-app.patch('/admin/responses/:id', adminAuth, async (c) => {
-  const id = c.req.param('id')
-  const { note } = await c.req.json()
+app.patch("/admin/responses/:id", adminAuth, async (c) => {
+  const id = c.req.param("id");
+  const { note } = await c.req.json();
   const { error } = await supabaseAdmin
-    .from('responses')
+    .from("responses")
     .update({ admin_note: note })
-    .eq('id', id)
-  if (error) return c.json({ error }, 500)
-  return c.json({ success: true })
-})
+    .eq("id", id);
+  if (error) return c.json({ error }, 500);
+  return c.json({ success: true });
+});
 
-export const GET = handle(app)
-export const POST = handle(app)
-export const PATCH = handle(app)
+export const GET = handle(app);
+export const POST = handle(app);
+export const PATCH = handle(app);
