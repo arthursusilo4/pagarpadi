@@ -19,30 +19,56 @@ const adminAuth = async (c: Context, next: Next) => {
 };
 
 // POST /api/survey/submit
-app.post("/survey/submit", zValidator("json", surveySchema), async (c) => {
-  const data = c.req.valid("json");
+app.post('/survey/submit',
+  zValidator('json', surveySchema),
+  async (c) => {
+    const data = c.req.valid('json')
 
-  const { error } = await supabaseAdmin.from("responses").insert({
-    nama: data.nama,
-    pengalaman_bertani: data.pengalaman_bertani,
-    frekuensi_hama: data.frekuensi_hama,
-    bulan_serangan: data.bulan_serangan,
-    hama_wereng: data.hama_wereng,
-    hama_tikus: data.hama_tikus,
-    hama_putih_palsu: data.hama_putih_palsu,
-    hama_keong_mas: data.hama_keong_mas,
-    hama_penggerek_putih: data.hama_penggerek_putih,
-    hama_penggerek_kuning: data.hama_penggerek_kuning,
-    hama_lainnya: data.hama_lainnya || null, // empty → null
-  });
+    const { error } = await supabaseAdmin
+      .from('responses')
+      .insert({
+        // Existing fields
+        nama:                  data.nama,
+        pengalaman_bertani:    data.pengalaman_bertani,
+        frekuensi_hama:        data.frekuensi_hama,
+        hama_wereng:           data.hama_wereng,
+        hama_tikus:            data.hama_tikus,
+        hama_putih_palsu:      data.hama_putih_palsu,
+        hama_keong_mas:        data.hama_keong_mas,
+        hama_penggerek_putih:  data.hama_penggerek_putih,
+        hama_penggerek_kuning: data.hama_penggerek_kuning,
+        hama_lainnya:          data.hama_lainnya || null,
+        
+        // NEW: Location fields
+        lokasi_kabupaten:      data.lokasi_kabupaten,
+        lokasi_kecamatan:      data.lokasi_kecamatan,
+        lokasi_desa:           data.lokasi_desa || null,
+        luas_lahan:            data.luas_lahan || null,
+        
+        // NEW: Farming practice fields
+        jenis_varietas:        data.jenis_varietas,
+        bulan_tanam:           data.bulan_tanam,
+        bulan_panen:           data.bulan_panen,
+        sistem_irigasi:        data.sistem_irigasi,
+        penggunaan_pestisida:  data.penggunaan_pestisida,
+        
+        // NEW: Pest condition fields
+        fase_serangan:         data.fase_serangan,
+        kondisi_cuaca:         data.kondisi_cuaca,
+        
+        // NEW: Impact fields
+        estimasi_kehilangan:        data.estimasi_kehilangan,
+        lahan_tetangga_terserang:   data.lahan_tetangga_terserang || null,
+      })
 
-  if (error) {
-    console.error("Supabase insert error:", error);
-    return c.json({ error: "Gagal menyimpan data" }, 500);
+    if (error) {
+      console.error('Supabase insert error:', error)
+      return c.json({ error: 'Gagal menyimpan data' }, 500)
+    }
+
+    return c.json({ success: true }, 201)
   }
-
-  return c.json({ success: true }, 201);
-});
+);
 
 // GET /api/admin/responses
 app.get("/admin/responses", adminAuth, async (c) => {

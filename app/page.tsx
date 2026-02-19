@@ -1,64 +1,56 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { surveySchema, SurveyData } from "@/lib/schema";
-import { FormStep } from "@/components/survey/FormStep";
-import { ReviewStep } from "@/components/survey/ReviewStep";
-import { SuccessStep } from "@/components/survey/SuccessStep";
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { surveySchema, SurveyData } from '@/lib/schema'
+import { FormStep } from '@/components/survey/FormStep'
+import { SuccessStep } from '@/components/survey/SuccessStep'
+// ❌ Remove: import { ReviewStep } from '@/components/survey/ReviewStep'
 
-type Step = "form" | "review" | "success";
+type Step = 'form' | 'success'  // ✅ Remove 'review' from the type
 
 export default function SurveyPage() {
-  const [step, setStep] = useState<Step>("form");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [step, setStep] = useState<Step>('form')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<SurveyData>({
     resolver: zodResolver(surveySchema) as any,
     defaultValues: {
-      nama: "",
-      frekuensi_hama: "",
-      bulan_serangan: "",
-      hama_lainnya: "",
-    },
-  });
-
-  // Step 1: validate then go to review
-  const handleGoToReview = form.handleSubmit(() => {
-    setStep("review");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  // Step 2: submit to API
-  const handleFinalSubmit = async () => {
-    setIsSubmitting(true);
-    try {
-      const res = await fetch("/api/survey/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form.getValues()),
-      });
-      if (!res.ok) throw new Error("Submit failed");
-      setStep("success");
-    } catch (e) {
-      alert("Terjadi kesalahan. Coba lagi.");
-    } finally {
-      setIsSubmitting(false);
+      nama: '',
+      frekuensi_hama: '',
+      hama_lainnya: '',
+      lokasi_kabupaten: '',
+      lokasi_kecamatan: '',
+      lokasi_desa: '',
+      jenis_varietas: '',
+      bulan_tanam: '',
+      bulan_panen: '',
     }
-  };
+  })
 
-  if (step === "review")
-    return (
-      <ReviewStep
-        data={form.getValues()}
-        onBack={() => setStep("form")}
-        onSubmit={handleFinalSubmit}
-        isSubmitting={isSubmitting}
-      />
-    );
+  // ✅ Updated: Submit directly to API, no review step
+  const handleSubmit = form.handleSubmit(async (data) => {
+    setIsSubmitting(true)
+    try {
+      const res = await fetch('/api/survey/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      
+      if (!res.ok) throw new Error('Submit failed')
+      
+      setStep('success')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch (e) {
+      alert('Terjadi kesalahan. Coba lagi.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  })
 
-  if (step === "success") return <SuccessStep />;
+  if (step === 'success') return <SuccessStep />
 
-  return <FormStep form={form} onNext={handleGoToReview} />;
+  return <FormStep form={form} onNext={handleSubmit} isSubmitting={isSubmitting} />
 }
