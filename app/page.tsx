@@ -17,40 +17,33 @@ export default function SurveyPage() {
   const form = useForm<SurveyData>({
   resolver: zodResolver(surveySchema) as any,
   defaultValues: {
-    // Identitas
     nama: '',
-    pengalaman_bertani: undefined,  // number fields can be undefined initially
-    
-    // Lokasi
     lokasi_kabupaten: '',
     lokasi_kecamatan: '',
     lokasi_desa: '',
-    luas_lahan: undefined,
-    
-    // Praktik Budidaya
     jenis_varietas: '',
     bulan_tanam: '',
     bulan_panen: '',
-    sistem_irigasi: undefined,      // enum fields start undefined until user selects
-    penggunaan_pestisida: undefined,
-    
-    // Kondisi Hama
     frekuensi_hama: '',
+    hama_lainnya: '',
+    
+    // Number fields - can be undefined
+    pengalaman_bertani: undefined,
+    luas_lahan: undefined,
+    
+    // Enum/RadioGroup fields - undefined is fine
+    sistem_irigasi: undefined,
+    penggunaan_pestisida: undefined,
     fase_serangan: undefined,
     kondisi_cuaca: undefined,
-    
-    // Jenis Hama (6 fields)
     hama_wereng: undefined,
     hama_tikus: undefined,
     hama_putih_palsu: undefined,
     hama_keong_mas: undefined,
     hama_penggerek_putih: undefined,
     hama_penggerek_kuning: undefined,
-    
-    // Dampak
     estimasi_kehilangan: undefined,
     lahan_tetangga_terserang: undefined,
-    hama_lainnya: '',
   }
 })
 
