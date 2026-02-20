@@ -1,113 +1,69 @@
 @import "tailwindcss";
 
-@theme {
-  /* ═══════════════════════════════════════════════════════════ */
-  /* LIGHT MODE (default) */
-  /* ═══════════════════════════════════════════════════════════ */
-  
-  --color-background: #ffffff;
-  --color-foreground: #0a0a0a;
-  
-  --color-card: #ffffff;
-  --color-card-foreground: #0a0a0a;
-  
-  --color-primary: #16a34a;
-  --color-primary-foreground: #f0fdf4;
-  
-  --color-secondary: #f4f4f5;
-  --color-secondary-foreground: #18181b;
-  
-  --color-muted: #f4f4f5;
-  --color-muted-foreground: #71717a;
-  
-  --color-accent: #f4f4f5;
-  --color-accent-foreground: #18181b;
-  
-  --color-destructive: #ef4444;
-  --color-destructive-foreground: #fef2f2;
-  
-  --color-border: #e4e4e7;
-  --color-input: #e4e4e7;
-  --color-ring: #16a34a;
-  
+/* ═══════════════════════════════════════════════════════════ */
+/* LIGHT MODE */
+/* ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 142.1 76.2% 36.3%;
+  --primary-foreground: 355.7 100% 97.3%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 142.1 76.2% 36.3%;
   --radius: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  @theme {
-    /* ═══════════════════════════════════════════════════════════ */
-    /* DARK MODE (auto - based on system preference) */
-    /* ═══════════════════════════════════════════════════════════ */
-    
-    --color-background: #0a0a0a;
-    --color-foreground: #fafafa;
-    
-    --color-card: #0a0a0a;
-    --color-card-foreground: #fafafa;
-    
-    --color-primary: #22c55e;
-    --color-primary-foreground: #052e16;
-    
-    --color-secondary: #27272a;
-    --color-secondary-foreground: #fafafa;
-    
-    --color-muted: #27272a;
-    --color-muted-foreground: #a1a1aa;
-    
-    --color-accent: #27272a;
-    --color-accent-foreground: #fafafa;
-    
-    --color-destructive: #7f1d1d;
-    --color-destructive-foreground: #fafafa;
-    
-    --color-border: #27272a;
-    --color-input: #27272a;
-    --color-ring: #22c55e;
-  }
-}
-
 /* ═══════════════════════════════════════════════════════════ */
-/* MANUAL DARK MODE (when .dark class is applied) */
+/* DARK MODE */
 /* ═══════════════════════════════════════════════════════════ */
 
 .dark {
-  --color-background: #0a0a0a;
-  --color-foreground: #fafafa;
-  
-  --color-card: #0a0a0a;
-  --color-card-foreground: #fafafa;
-  
-  --color-primary: #22c55e;
-  --color-primary-foreground: #052e16;
-  
-  --color-secondary: #27272a;
-  --color-secondary-foreground: #fafafa;
-  
-  --color-muted: #27272a;
-  --color-muted-foreground: #a1a1aa;
-  
-  --color-accent: #27272a;
-  --color-accent-foreground: #fafafa;
-  
-  --color-destructive: #7f1d1d;
-  --color-destructive-foreground: #fafafa;
-  
-  --color-border: #27272a;
-  --color-input: #27272a;
-  --color-ring: #22c55e;
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 142.1 70.6% 45.3%;
+  --primary-foreground: 144.9 80.4% 10%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 142.1 70.6% 45.3%;
 }
 
 /* ═══════════════════════════════════════════════════════════ */
-/* BASE STYLES */
+/* BASE STYLES - Apply the colors */
 /* ═══════════════════════════════════════════════════════════ */
 
 * {
-  border-color: var(--color-border);
+  border-color: hsl(var(--border));
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
 }
 
 /* ═══════════════════════════════════════════════════════════ */
@@ -119,7 +75,7 @@ body {
 }
 
 .gradient-border-top::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -132,23 +88,18 @@ body {
 .gradient-1 {
   --gradient: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
 }
-
 .gradient-2 {
   --gradient: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
 }
-
 .gradient-3 {
   --gradient: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
 }
-
 .gradient-4 {
   --gradient: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
 }
-
 .gradient-5 {
   --gradient: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
 }
-
 .gradient-6 {
   --gradient: linear-gradient(90deg, #30cfd0 0%, #330867 100%);
 }
