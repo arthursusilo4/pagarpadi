@@ -27,10 +27,6 @@
   --radius: 0.5rem;
 }
 
-/* ═══════════════════════════════════════════════════════════ */
-/* DARK MODE */
-/* ═══════════════════════════════════════════════════════════ */
-
 .dark {
   --background: 0 0% 3.9%;
   --foreground: 0 0% 98%;
@@ -53,10 +49,6 @@
   --ring: 142.1 70.6% 45.3%;
 }
 
-/* ═══════════════════════════════════════════════════════════ */
-/* BASE STYLES - Apply the colors */
-/* ═══════════════════════════════════════════════════════════ */
-
 * {
   border-color: hsl(var(--border));
 }
@@ -67,7 +59,26 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════ */
-/* GRADIENT UTILITIES */
+/* ENHANCED CARD BORDERS */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Make card borders more visible */
+.card-enhanced {
+  border: 1.5px solid hsl(var(--border));
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.dark .card-enhanced {
+  border: 1.5px solid hsl(var(--border));
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.3),
+    0 1px 2px -1px rgb(0 0 0 / 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* GRADIENT UTILITIES - All Green Agricultural Theme */
 /* ═══════════════════════════════════════════════════════════ */
 
 .gradient-border-top {
@@ -81,25 +92,103 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: var(--gradient);
+  background: linear-gradient(90deg, #10b981 0%, #059669 50%, #047857 100%);
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
-.gradient-1 {
-  --gradient: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+/* ═══════════════════════════════════════════════════════════ */
+/* ENHANCED RADIO BUTTON STYLES */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Radio button item spacing */
+/* Radio button item spacing */
+.radio-item-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  border: 1.5px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.gradient-2 {
-  --gradient: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+
+.radio-item-wrapper:hover {
+  background-color: hsl(var(--muted) / 0.5);
+  border-color: hsl(var(--primary) / 0.5);
 }
-.gradient-3 {
-  --gradient: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+
+/* When radio is checked */
+.radio-item-wrapper:has([data-state="checked"]) {
+  background-color: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.2);
 }
-.gradient-4 {
-  --gradient: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+
+.dark .radio-item-wrapper:has([data-state="checked"]) {
+  background-color: hsl(var(--primary) / 0.15);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.3);
 }
-.gradient-5 {
-  --gradient: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
+
+/* Enhanced radio button - SOLID GREEN FILL when checked */
+button[role="radio"] {
+  border: 2px solid hsl(var(--primary) / 0.5);
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
-.gradient-6 {
-  --gradient: linear-gradient(90deg, #30cfd0 0%, #330867 100%);
+
+button[role="radio"][data-state="checked"] {
+  border-color: hsl(var(--primary));
+  background-color: hsl(var(--primary));
+}
+
+/* The inner indicator - make it white so it shows on green background */
+button[role="radio"][data-state="checked"] > span {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+/* Make the label clickable and fill the space */
+.radio-item-wrapper label {
+  cursor: pointer;
+  flex: 1;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+/* ENHANCED SUBMIT BUTTON */
+/* ═══════════════════════════════════════════════════════════ */
+
+.submit-button {
+  box-shadow:
+    0 6px 12px -2px rgb(0 0 0 / 0.2),
+    0 3px 7px -3px rgb(0 0 0 / 0.15);
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 20px -4px rgb(0 0 0 / 0.25),
+    0 6px 10px -5px rgb(0 0 0 / 0.2);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.dark .submit-button {
+  box-shadow:
+    0 6px 12px -2px rgb(0 0 0 / 0.5),
+    0 3px 7px -3px rgb(0 0 0 / 0.4);
+}
+
+.dark .submit-button:hover:not(:disabled) {
+  box-shadow:
+    0 12px 20px -4px rgb(0 0 0 / 0.6),
+    0 6px 10px -5px rgb(0 0 0 / 0.5);
 }

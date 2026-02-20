@@ -2,7 +2,7 @@ interface IconProps {
   className?: string
 }
 
-export function NewIcon({ className }: IconProps) {
+export function PaddyIcon({ className }: IconProps) {
   return (
     <svg 
       viewBox="0 0 32 32" 
