@@ -69,7 +69,7 @@ export function FormStep({ form, onNext, isSubmitting }: Props) {
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
                   <UserIcon className="w-5 h-5 text-primary" />
-                  Identitas Petani
+                  Identitas Pelaku Pertanian
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -95,7 +95,7 @@ export function FormStep({ form, onNext, isSubmitting }: Props) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Pengalaman Bertani{" "}
+                        Pengalaman di Bidang Pertanian{" "}
                         <span className="text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
